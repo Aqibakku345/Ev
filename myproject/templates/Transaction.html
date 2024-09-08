@@ -1,0 +1,532 @@
+{% load static %}
+{% comment %} <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Car Listings - Filter Search</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/5.3.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        body {
+            background-color: #f2f3f5;
+            font-family: 'Arial', sans-serif;
+        }
+
+        .navbar {
+            background-color: #343a40;
+        }
+
+        .navbar-brand {
+            color: #ffffff;
+        }
+
+        .navbar-brand:hover {
+            color: #e9ecef;
+        }
+
+        .navbar-nav .nav-link {
+            color: #ffffff;
+        }
+
+        .navbar-nav .nav-link:hover {
+            color: #e9ecef;
+        }
+
+        .container-fluid {
+            margin-top: 80px;
+        }
+
+        .sidebar {
+            height: 100%;
+            width: 300px;
+            background-color: #ffffff;
+            border-right: 1px solid #ddd;
+            padding: 2rem;
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 100;
+        }
+
+        .sidebar h2 {
+            margin-bottom: 1.5rem;
+            font-size: 1.75rem;
+            color: #333;
+        }
+
+        .filter-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .filter-group label {
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+
+        .filter-group select,
+        .filter-group input[type="text"] {
+            border-radius: 5px;
+            border: 1px solid #ced4da;
+            padding: 0.5rem;
+            width: 100%;
+        }
+
+        .filter-group input[type="checkbox"] {
+            margin-right: 0.5rem;
+        }
+
+        .filter-group .form-check-label {
+            margin-bottom: 0;
+        }
+
+        .apply-filters-btn {
+            background-color: #4b77be;
+            border-color: #4b77be;
+            color: #ffffff;
+            border-radius: 25px;
+            padding: 0.75rem 1.5rem;
+            font-weight: bold;
+        }
+
+        .apply-filters-btn:hover {
+            background-color: #3a5f9d;
+            border-color: #334d6e;
+        }
+
+        .reset-filters-btn {
+            color: #6c757d;
+            border-color: #6c757d;
+            border-radius: 25px;
+            padding: 0.75rem 1.5rem;
+        }
+
+        .reset-filters-btn:hover {
+            background-color: #e9ecef;
+            color: #495057;
+        }
+
+        .content {
+            margin-left: 320px;
+            padding: 2rem;
+        }
+
+        .car-card {
+            border: none;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            margin-bottom: 1.5rem;
+            overflow: hidden;
+            background-color: #ffffff;
+        }
+
+        .car-card img {
+            width: 100%;
+            height: auto;
+        }
+
+        .car-card-body {
+            padding: 1.5rem;
+        }
+
+        .car-card-body h5 {
+            font-size: 1.25rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .car-card-body p {
+            color: #6c757d;
+        }
+
+        .car-card-body .price {
+            font-size: 1.5rem;
+            color: #28a745;
+            font-weight: bold;
+        }
+
+        .car-card-body .btn {
+            border-radius: 25px;
+            font-weight: bold;
+        }
+
+        .car-card-details {
+            margin-top: 1rem;
+        }
+
+        .car-card-details h6 {
+            font-size: 1.1rem;
+            margin-bottom: 0.5rem;
+            color: #333;
+        }
+
+        .car-card-details .spec {
+            display: flex;
+            align-items: center;
+            margin-bottom: 0.5rem;
+        }
+
+        .car-card-details .spec i {
+            color: #007bff;
+            margin-right: 0.5rem;
+        }
+
+        .rating {
+            color: #ffc107;
+        }
+
+        .rating .fa-star {
+            font-size: 1.5rem;
+            transition: color 0.3s;
+        }
+
+        .rating .fa-star:hover {
+            color: #ffb600;
+        }
+
+        .footer {
+            background-color: #343a40;
+            color: #ffffff;
+            text-align: center;
+            padding: 1rem;
+            position: fixed;
+            width: 100%;
+            bottom: 0;
+        }
+
+        @media (max-width: 768px) {
+            .sidebar {
+                width: 100%;
+                position: relative;
+                border-right: none;
+                border-bottom: 1px solid #ddd;
+            }
+
+            .content {
+                margin-left: 0;
+                padding: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+
+
+    <div class="sidebar">
+        <h2>Filter Cars</h2>
+        <form>
+            <div class="filter-group">
+                <label for="make">Make</label>
+                <select id="make" class="form-select">
+                    <option value="">Any</option>
+                    <option value="toyota">Toyota</option>
+                    <option value="honda">Honda</option>
+                    <option value="ford">Ford</option>
+                    <option value="bmw">BMW</option>
+                </select>
+            </div>
+            <div class="filter-group">
+                <label for="model">Model</label>
+                <select id="model" class="form-select">
+                    <option value="">Any</option>
+                    <option value="camry">Camry</option>
+                    <option value="accord">Accord</option>
+                    <option value="mustang">Mustang</option>
+                    <option value="x5">X5</option>
+                </select>
+            </div>
+            <div class="filter-group">
+                <label for="price">Price Range</label>
+                <input type="text" id="price" class="form-control" placeholder="$0 - $50,000">
+            </div>
+            <div class="filter-group">
+                <label>Condition</label>
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" id="new">
+                    <label class="form-check-label" for="new">New</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" id="used">
+                    <label class="form-check-label" for="used">Used</label>
+                </div>
+            </div>
+            <div class="filter-group">
+                <label for="year">Year</label>
+                <select id="year" class="form-select">
+                    <option value="">Any</option>
+                    <option value="2024">2024</option>
+                    <option value="2023">2023</option>
+                    <option value="2022">2022</option>
+                    <option value="2021">2021</option>
+                </select>
+            </div>
+            <div class="filter-group">
+                <label for="mileage">Mileage</label>
+                <input type="text" id="mileage" class="form-control" placeholder="0 - 100,000 miles">
+            </div>
+            <div class="text-center">
+                <button type="submit" class="btn apply-filters-btn">Apply Filters</button>
+                <button type="reset" class="btn reset-filters-btn">Reset Filters</button>
+            </div>
+        </form>
+    </div>
+
+    <!-- Content Area -->
+    <div class="content">
+        <div class="row">
+            <div class="col-md-4">
+                <div class="car-card">
+                    <img src="https://scene7.toyota.eu/is/image/toyotaeurope/48-3?wid=1280&fit=fit,1&ts=1684503144994&resMode=sharp2&op_usm=1.75,0.3,2,0" alt="Car Image">
+                    <div class="car-card-body">
+                        <div class="car-card-body">
+                            <h5>Toyota Camry 2023</h5>
+                            <p>New - 10,000 miles</p>
+                            <div class="price">$25,000</div>
+                            <div class="car-card-details">
+                                <h6>Specifications:</h6>
+                                <div class="spec"><i class="fas fa-cogs"></i><span>Engine:</span> 5.0L V8</div>
+                                <div class="spec"><i class="fas fa-gears"></i><span>Transmission:</span> 6-speed manual</div>
+                                <div class="spec"><i class="fas fa-gas-pump"></i><span>Fuel Economy:</span> 15/24 MPG</div>
+                                <div class="spec"><i class="fas fa-road"></i><span>Drivetrain:</span> Rear-wheel drive</div>
+                                <div class="spec"><i class="fas fa-paint-brush"></i><span>Color:</span> Red</div>
+                            </div>
+                            <div class="text-center mt-3">
+                                <a href="#scheduleTestDrive" class="btn btn-primary" data-bs-toggle="modal">Schedule Test Drive</a>
+                                <a href="#bookNow" class="btn btn-success ms-2">Book Now</a>
+                            </div>
+                            <div class="rating text-center mt-3">
+                                <div>Customer Reviews:</div>
+                                <div class="mb-2">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star-half-alt"></i>
+                                </div>
+                                <a href="#review" class="btn btn-outline-secondary">Leave a Review</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Modal for scheduling test drive -->
+    <div class="modal fade" id="scheduleTestDrive" tabindex="-1" aria-labelledby="scheduleTestDriveLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="scheduleTestDriveLabel">Schedule a Test Drive</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="testDriveForm">
+                        <div class="mb-3">
+                            <label for="name" class="form-label">Your Name</label>
+                            <input type="text" class="form-control" id="name" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="email" class="form-label">Your Email</label>
+                            <input type="email" class="form-control" id="email" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="phone" class="form-label">Your Phone Number</label>
+                            <input type="tel" class="form-control" id="phone" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="date" class="form-label">Preferred Date</label>
+                            <input type="date" class="form-control" id="date" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="time" class="form-label">Preferred Time</label>
+                            <input type="time" class="form-control" id="time" required>
+                        </div>
+                        <input type="hidden" id="carId" value="">
+                        <button type="submit" class="btn btn-primary">Schedule Test Drive</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Modal for booking now -->
+    <div class="modal fade" id="bookNow" tabindex="-1" aria-labelledby="bookNowLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="bookNowLabel">Book This Car</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p>To book this car, please contact us directly or visit our showroom. We will guide you through the booking process.</p>
+                    <div class="text-center">
+                        <a href="mailto:contact@carlistings.com" class="btn btn-primary">Contact Us</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Modal for reviews -->
+    <div class="modal fade" id="review" tabindex="-1" aria-labelledby="reviewLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="reviewLabel">Leave a Review</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="reviewForm">
+                        <div class="mb-3">
+                            <label for="reviewerName" class="form-label">Your Name</label>
+                            <input type="text" class="form-control" id="reviewerName" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="reviewerEmail" class="form-label">Your Email</label>
+                            <input type="email" class="form-control" id="reviewerEmail" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="rating" class="form-label">Rating</label>
+                            <select id="rating" class="form-select">
+                                <option value="5">5 Stars</option>
+                                <option value="4">4 Stars</option>
+                                <option value="3">3 Stars</option>
+                                <option value="2">2 Stars</option>
+                                <option value="1">1 Star</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="reviewText" class="form-label">Review</label>
+                            <textarea class="form-control" id="reviewText" rows="4" required></textarea>
+                        </div>
+                        <input type="hidden" id="reviewCarId" value="">
+                        <button type="submit" class="btn btn-primary">Submit Review</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <footer class="footer">
+        <p>&copy; 2024 CarListings. All rights reserved.</p>
+    </footer>
+    
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+    </body>
+    </html> {% endcomment %}
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Book Your Car</title>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+        <style>
+            body {
+                background-color: #f0f2f5;
+            }
+            .container {
+                margin-top: 50px;
+            }
+            .form-control {
+                border-radius: 25px;
+            }
+            .btn-primary {
+                background: #102C57;
+                border: none;
+                border-radius: 25px;
+            }
+            .btn-primary:hover {
+                background: #0056b3;
+            }
+        </style>
+    </head>
+    <body>
+    
+    <div class="container">
+        <h1 class="mb-4">Book {{ car.make }} {{ car.model }}</h1>
+        <form method="post">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="name">Your Name</label>
+                {{ form.name }}
+            </div>
+            <div class="form-group">
+                <label for="email">Your Email</label>
+                {{ form.email }}
+            </div>
+            <div class="form-group">
+                <label for="phone_number">Phone Number</label>
+                {{ form.phone_number }}
+            </div>
+            <div class="form-group">
+                <label for="payment_method">Payment Method</label>
+                {{ form.payment_method }}
+            </div>
+            {% if form.payment_method.value == 'card' %}
+                <div class="form-group">
+                    <label for="card_number">Card Number</label>
+                    {{ form.card_number }}
+                </div>
+                <div class="form-group">
+                    <label for="card_expiry">Expiry Date</label>
+                    {{ form.card_expiry }}
+                </div>
+                <div class="form-group">
+                    <label for="card_cvv">CVV</label>
+                    {{ form.card_cvv }}
+                </div>
+            {% elif form.payment_method.value == 'upi' %}
+                <div class="form-group">
+                    <label for="upi_id">UPI ID</label>
+                    {{ form.upi_id }}
+                </div>
+            {% elif form.payment_method.value == 'netbanking' %}
+                <div class="form-group">
+                    <label for="bank_name">Bank Name</label>
+                    {{ form.bank_name }}
+                </div>
+                <div class="form-group">
+                    <label for="account_number">Account Number</label>
+                    {{ form.account_number }}
+                </div>
+                <div class="form-group">
+                    <label for="ifsc_code">IFSC Code</label>
+                    {{ form.ifsc_code }}
+                </div>
+            {% endif %}
+            <div class="form-group">
+                <label for="booking_date">Booking Date</label>
+                {{ form.booking_date }}
+            </div>
+            <div class="form-group">
+                <label for="booking_time">Booking Time</label>
+                {{ form.booking_time }}
+            </div>
+            <div class="form-group">
+                <label for="charging_station">Charging Station</label>
+                {{ form.charging_station }}
+            </div>
+            <div class="form-group">
+                <label for="slot_duration">Slot Duration</label>
+                {{ form.slot_duration }}
+            </div>
+            <div class="form-group">
+                <label for="total_amount">Total Amount</label>
+                {{ form.total_amount }}
+            </div>
+            <div class="form-group">
+                <label for="additional_message">Additional Message</label>
+                {{ form.additional_message }}
+            </div>
+            <button type="submit" class="btn btn-primary">Submit Booking</button>
+        </form>
+    </div>
+    
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    </body>
+    </html>
+    

@@ -1,0 +1,450 @@
+
+{% comment %} <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>User Profile Dashboard</title>
+    <style>
+        /* General Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Roboto", sans-serif;
+            font-weight: 400;
+            font-style: normal;
+        }
+        body {
+            background-color: #f4f4f4;
+        }
+        .container {
+            width: 80%;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px;
+            background-color: #0d6efd;
+            color: white;
+        }
+        .navbar a {
+            color: white;
+            text-decoration: none;
+            margin: 0 10px;
+        }
+        .navbar a:hover {
+            text-decoration: underline;
+        }
+        .profile-header {
+            display: flex;
+            align-items: center;
+            border-bottom: 2px solid #e0e0e0;
+            padding-bottom: 20px;
+            margin-bottom: 20px;
+        }
+        .profile-header img {
+            border-radius: 50%;
+            width: 120px;
+            height: 120px;
+            margin-right: 20px;
+        }
+        .profile-header h1 {
+            margin-bottom: 10px;
+        }
+        .profile-header p {
+            color: #666;
+        }
+        .profile-actions {
+            display: flex;
+            gap: 10px;
+        }
+        .profile-actions button {
+            padding: 10px 20px;
+            border: none;
+            background-color: #0d6efd;
+            color: white;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .profile-actions button:hover {
+            background-color: #0b5ed7;
+        }
+        .profile-section {
+            margin-bottom: 30px;
+        }
+        .profile-section h2 {
+            margin-bottom: 10px;
+        }
+        .profile-section form {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        .profile-section form input,
+        .profile-section form textarea {
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        .profile-section form input[type="submit"] {
+            background-color: #0d6efd;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        .profile-section form input[type="submit"]:hover {
+            background-color: #0b5ed7;
+        }
+        .order-history {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .order-history table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        .order-history table,
+        .order-history th,
+        .order-history td {
+            border: 1px solid #ddd;
+        }
+        .order-history th,
+        .order-history td {
+            padding: 10px;
+            text-align: left;
+        }
+        .order-history th {
+            background-color: #0d6efd;
+            color: white;
+        }
+        .footer {
+            background-color: #0d6efd;
+            color: white;
+            text-align: center;
+            padding: 10px 0;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <div class="navbar">
+        <a href="#">Home</a>
+        <a href="#">Profile</a>
+        <a href="#">Settings</a>
+        <a href="#">Logout</a>
+    </div>
+
+    <!-- Main Content -->
+    <div class="container">
+        <!-- Profile Header -->
+        <div class="profile-header">
+            <img src="data:image/jpeg;base64,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" alt="Profile Picture">
+            <div>
+                <h1>John Doe</h1>
+                <p>Email: john.doe@example.com</p>
+                <p>Joined: January 2022</p>
+                <div class="profile-actions">
+                    <button>Edit Profile</button>
+                    <button>Change Password</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Profile Sections -->
+        <div class="profile-section">
+            <h2>Update Profile</h2>
+            <form id="update-profile-form">
+                <input type="text" id="name" name="name" placeholder="Full Name" value="John Doe" />
+                <input type="email" id="email" name="email" placeholder="Email" value="john.doe@example.com" />
+                <textarea id="bio" name="bio" rows="4" placeholder="Bio">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</textarea>
+                <input type="submit" value="Save Changes" />
+            </form>
+        </div>
+
+        <div class="profile-section">
+            <h2>Order History</h2>
+            <div class="order-history">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Order ID</th>
+                            <th>Date</th>
+                            <th>Status</th>
+                            <th>Total</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>#1234</td>
+                            <td>2024-08-01</td>
+                            <td>Shipped</td>
+                            <td>$120.00</td>
+                        </tr>
+                        <tr>
+                            <td>#5678</td>
+                            <td>2024-07-15</td>
+                            <td>Delivered</td>
+                            <td>$45.00</td>
+                        </tr>
+                        <!-- More rows as needed -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="footer">
+        <p>&copy; 2024 Your Company. All rights reserved.</p>
+    </div>
+
+    <script>
+        document.getElementById('update-profile-form').addEventListener('submit', function(event) {
+            event.preventDefault();
+            // Form handling logic here
+            alert('Profile updated!');
+        });
+    </script>
+</body>
+</html> {% endcomment %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Profile</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/5.3.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        body {
+            background-color: #f2f3f5;
+            font-family: 'Arial', sans-serif;
+        }
+
+        .navbar {
+            background-color: #4b77be;
+        }
+
+        .navbar-brand {
+            color: #ffffff;
+            font-weight: bold;
+        }
+
+        .navbar-brand:hover {
+            color: #dbe3e5;
+        }
+
+        .navbar-nav .nav-link {
+            color: #ffffff;
+        }
+
+        .navbar-nav .nav-link:hover {
+            color: #dbe3e5;
+        }
+
+        .container {
+            margin-top: 80px;
+        }
+
+        .profile-header {
+            background-color: #2e3a87;
+            color: #ffffff;
+            padding: 3rem;
+            border-radius: 15px;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        .profile-header img {
+            border-radius: 50%;
+            border: 6px solid #ffffff;
+            width: 150px;
+            height: 150px;
+            object-fit: cover;
+        }
+
+        .profile-header h1 {
+            margin-top: 1rem;
+            font-size: 2.5rem;
+        }
+
+        .profile-header p {
+            font-size: 1.1rem;
+            margin-bottom: 1rem;
+        }
+
+        .wallet-section {
+            background-color: #ffffff;
+            border-radius: 15px;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+            padding: 2rem;
+            margin-top: 2rem;
+        }
+
+        .wallet-section h2 {
+            margin-bottom: 1.5rem;
+            font-size: 2rem;
+            color: #333;
+        }
+
+        .wallet-card {
+            background-color: #e9ecef;
+            border: none;
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .wallet-card .card-header {
+            background-color: #4b77be;
+            color: #ffffff;
+            font-weight: bold;
+            border-bottom: none;
+            border-radius: 10px 10px 0 0;
+        }
+
+        .wallet-card .card-body {
+            padding: 1rem;
+        }
+
+        .btn-primary {
+            background-color: #4b77be;
+            border-color: #4b77be;
+            color: #ffffff;
+            border-radius: 25px;
+            padding: 0.75rem 1.5rem;
+            font-weight: bold;
+        }
+
+        .btn-primary:hover {
+            background-color: #3a5f9d;
+            border-color: #334d6e;
+        }
+
+        .btn-outline-secondary {
+            border-radius: 25px;
+            padding: 0.75rem 1.5rem;
+            color: #6c757d;
+            border-color: #6c757d;
+        }
+
+        .btn-outline-secondary:hover {
+            background-color: #6c757d;
+            color: #ffffff;
+        }
+
+        .transaction-list .list-group-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border: none;
+            padding: 1rem;
+        }
+
+        .transaction-list .list-group-item .transaction-details {
+            flex: 1;
+            font-size: 1rem;
+        }
+
+        .transaction-list .list-group-item .transaction-date {
+            color: #6c757d;
+            font-size: 0.9rem;
+        }
+
+        .transaction-list .list-group-item .transaction-amount {
+            font-size: 1rem;
+        }
+
+        .transaction-list .list-group-item .transaction-amount.text-success {
+            color: #28a745;
+        }
+
+        .transaction-list .list-group-item .transaction-amount.text-danger {
+            color: #dc3545;
+        }
+
+        @media (max-width: 576px) {
+            .profile-header img {
+                width: 120px;
+                height: 120px;
+            }
+
+            .wallet-card {
+                padding: 1rem;
+            }
+
+            .profile-header h1 {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+
+
+
+    <div class="profile-header">
+        <img src="https://th.bing.com/th/id/OIP.-4DSk2ZjOgMDS0HMYCdegwAAAA?rs=1&pid=ImgDetMain" alt="User Photo">
+        <h1>Jane Doe</h1>
+        <p>jane.doe@example.com</p>
+        <a href="#" class="btn btn-primary">Edit Profile</a>
+    </div>
+
+    <!-- Wallet Section -->
+    <div class="wallet-section">
+        <h2>Wallet</h2>
+        <div class="wallet-card">
+            <div class="card-header">Current Balance</div>
+            <div class="card-body">
+                <h3>$2,540.00</h3>
+                <a href="#" class="btn btn-outline-secondary">Add Funds</a>
+                <a href="#" class="btn btn-outline-secondary">Withdraw</a>
+            </div>
+        </div>
+        <div class="wallet-card">
+            <div class="card-header">Recent Transactions</div>
+            <div class="card-body">
+                <ul class="list-group transaction-list">
+                    <li class="list-group-item">
+                        <div class="transaction-details">Purchase at Store A</div>
+                        <div class="transaction-amount text-danger">-$45.00</div>
+                        <div class="transaction-date">Aug 20, 2024</div>
+                    </li>
+                    <li class="list-group-item">
+                        <div class="transaction-details">Deposit</div>
+                        <div class="transaction-amount text-success">+$500.00</div>
+                        <div class="transaction-date">Aug 18, 2024</div>
+                    </li>
+                    <li class="list-group-item">
+                        <div class="transaction-details">Purchase at Store B</div>
+                        <div class="transaction-amount text-danger">-$30.00</div>
+                        <div class="transaction-date">Aug 15, 2024</div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Footer -->
+<div class="footer text-center py-3" style="background-color: #4b77be; color: #ffffff;">
+    <p>&copy; 2024 MyApp. All rights reserved.</p>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
+

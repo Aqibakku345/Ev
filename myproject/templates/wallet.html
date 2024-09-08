@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Car Listings</title>
+    
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=San+Francisco:wght@400;500;700&display=swap">
+    <style>
+        body {
+            font-family: 'San Francisco', Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f0f0f5;
+            color: #333;
+        }
+        .navbar {
+            background-color: #003366; /* Navy Blue */
+            color: #fff;
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            left: 0;
+            z-index: 1000;
+        }
+        .navbar a {
+            color: #fff;
+            text-decoration: none;
+            margin: 0 15px;
+            font-weight: 500;
+        }
+        .navbar a:hover {
+            text-decoration: underline;
+        }
+        .footer {
+            background-color: #003366; /* Navy Blue */
+            color: #fff;
+            padding: 15px 20px;
+            text-align: center;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+        }
+        .container {
+            display: flex;
+            width: 90%;
+            max-width: 1200px;
+            margin: auto;
+            padding: 80px 20px 60px; /* Adjust for fixed navbar and footer */
+        }
+        .sidebar {
+            width: 250px;
+            background-color: #fff;
+            border-radius: 12px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            padding: 20px;
+            margin-right: 20px;
+        }
+        .sidebar h2 {
+            font-size: 1.5em;
+            margin-bottom: 15px;
+        }
+        .sidebar .filter-group {
+            margin-bottom: 20px;
+        }
+        .sidebar .filter-group label {
+            font-weight: 500;
+            color: #333;
+            margin-bottom: 5px;
+            display: block;
+        }
+        .sidebar .filter-group select {
+            width: 100%;
+            padding: 10px;
+            border-radius: 8px;
+            border: 1px solid #ddd;
+            background-color: #fff;
+        }
+        .main-content {
+            flex: 1;
+        }
+        .view-sort-options {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+        .view-sort-options select, .view-sort-options button {
+            padding: 10px;
+            border-radius: 8px;
+            border: 1px solid #ddd;
+            background-color: #fff;
+            font-size: 1em;
+            margin-right: 10px;
+        }
+        .view-sort-options button {
+            background-color: #007bff;
+            color: #fff;
+            cursor: pointer;
+        }
+        .view-sort-options button:hover {
+            background-color: #0056b3;
+        }
+        .listing-grid, .listing-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+        .listing-grid .car-item, .listing-list .car-item {
+            background: #fff;
+            border-radius: 12px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            padding: 15px;
+            flex: 1;
+            min-width: 300px;
+        }
+        .listing-grid .car-item img, .listing-list .car-item img {
+            width: 100%;
+            height: 200px; /* Fixed height */
+            object-fit: cover; /* Crop the image to fit the container */
+            border-radius: 8px;
+        }
+        .listing-list .car-item {
+            display: flex;
+            align-items: center;
+        }
+        .listing-list .car-item img {
+            width: 150px;
+            height: 150px; /* Fixed height */
+            margin-right: 15px;
+        }
+        .car-item h2 {
+            font-size: 1.5em;
+            margin: 0;
+        }
+        .car-item p {
+            font-size: 1em;
+            color: #666;
+        }
+        .car-item .price {
+            font-weight: 700;
+            color: #333;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <div class="navbar">
+        <a href="{% url 'home' %}">Home</a>
+        <a href="{% url 'home' %}">Car Listings</a>
+        <a href="{% url 'home' %}">Contact Us</a>
+    </div>
+
+    <div class="container">
+        <!-- Sidebar for Filters -->
+        <div class="sidebar">
+            <h2>Filter Options</h2>
+            <form method="get" action="{% url 'car_list' %}">
+                <div class="filter-group">
+                    <label for="brand">Brand:</label>
+                    <select id="brand" name="brand">
+                        <option value="">All Brands</option>
+                        <option value="tesla">Tesla</option>
+                        <option value="nissan">Nissan</option>
+                        <option value="chevrolet">Chevrolet</option>
+                        <!-- Add more brands as needed -->
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label for="price-range">Price Range:</label>
+                    <select id="price-range" name="price-range">
+                        <option value="">Any Price</option>
+                        <option value="0-20000">$0 - $20,000</option>
+                        <option value="20001-40000">$20,001 - $40,000</option>
+                        <option value="40001-60000">$40,001 - $60,000</option>
+                        <option value="60001-80000">$60,001 - $80,000</option>
+                        <!-- Add more ranges as needed -->
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label for="range-per-charge">Range per Charge:</label>
+                    <select id="range-per-charge" name="range-per-charge">
+                        <option value="">Any Range</option>
+                        <option value="100-200">100 - 200 miles</option>
+                        <option value="201-300">201 - 300 miles</option>
+                        <option value="301-400">301 - 400 miles</option>
+                        <option value="401-500">401 - 500 miles</option>
+                        <!-- Add more ranges as needed -->
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label for="body-type">Body Type:</label>
+                    <select id="body-type" name="body-type">
+                        <option value="">Any Body Type</option>
+                        <option value="sedan">Sedan</option>
+                        <option value="suv">SUV</option>
+                        <option value="hatchback">Hatchback</option>
+                        <option value="coupe">Coupe</option>
+                        <!-- Add more body types as needed -->
+                    </select>
+                </div>
+                <button type="submit">Apply Filters</button>
+            </form>
+        </div>
+
+        <!-- Main Content Area -->
+        <div class="main-content">
+            <!-- View and Sort Options -->
+            <div class="view-sort-options">
+                <select id="view-mode" name="view-mode">
+                    <option value="grid">Grid View</option>
+                    <option value="list">List View</option>
+                </select>
+                <select id="sort-by" name="sort-by">
+                    <option value="newest">Newest Arrivals</option>
+                    <option value="price-low-high">Price Low to High</option>
+                    <option value="price-high-low">Price High to Low</option>
+                    <option value="best-range">Best Range</option>
+                </select>
+                <button type="button" onclick="applyFilters()">Apply Filters</button>
+            </div>
+
+            <!-- Car Listings -->
+            <div id="car-listings" class="listing-grid">
+                {% for car in cars %}
+                    <div class="car-item">
+                        <img src="{{ car.photo.url }}" alt="{{ car.model }}">
+                        <h2>{{ car.model }}</h2>
+                        <p><strong>Brand:</strong> {{ car.brand }}</p>
+                        <p><strong>Price:</strong> ${{ car.price }}</p>
+                        <p><strong>Range per Charge:</strong> {{ car.range }}</p>
+                        <p class="price">${{ car.price }}</p>
+                        <a href="{% url 'home' %}">View Details</a>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="footer">
+        &copy; 2024 Car Dealership. All rights reserved.
+    </div>
+
+    <script>
+        function applyFilters() {
+            // Logic to apply filters and update the car listings
+            // This can be implemented with AJAX or by updating the URL parameters
+            alert('Filters applied!');
+        }
+    </script>
+</body>
+</html> 
