@@ -67,9 +67,6 @@ def wallet(request):
  
 
      
-# def car(request):
-#     cars = EvCar.objects.all()
-#     return render(request, 'car.html', {'cars': cars})
 
 def home(request):
     return render(request,'home.html')
