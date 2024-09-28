@@ -1,8 +1,9 @@
 
 {% load static %}
+
  <!DOCTYPE html>
  <html lang="en">
- 
+
  <head>
      <meta charset="UTF-8">
      <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -15,15 +16,15 @@
              padding: 0;
              box-sizing: border-box;
          }
- 
+
          body {
              font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
              margin: 0;
              padding: 0;
              background-color: #f0f0f0;
-             color: #333;
+             color: black;
          }
- 
+
          header {
              background-color: #102C57;
              padding: 10px 20px;
@@ -34,8 +35,8 @@
              left: 0;
              z-index: 1000;
              box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-         } 
- 
+         }
+
          .navbar {
              display: flex;
              align-items: center;
@@ -43,33 +44,33 @@
              max-width: 1200px;
              margin: 0 auto;
          }
- 
+
          .navbar-brand img {
              height: 40px;
              width: auto;
          }
- 
+
          .navbar-nav {
              display: flex;
              gap: 20px;
              align-items: center;
-         } 
- 
+         }
+
          .navbar-nav a {
              color: #fff;
              text-decoration: none;
              font-size: 1em;
-             font-weight: 400; 
+             font-weight: 400;
              font-family: "Ubuntu", sans-serif;
-             
+
              font-style: normal;
              transition: color 0.3s ease;
-         } 
- 
+         }
+
          .navbar-nav a:hover {
              color: #00C2A2;
          }
- 
+
          .search-bar {
              display: flex;
              align-items: center;
@@ -78,7 +79,7 @@
              background: #fff;
              box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
          }
- 
+
          .search-bar input {
              padding: 8px;
              border: none;
@@ -87,7 +88,7 @@
              width: 180px;
              font-size: 0.9em;
          }
- 
+
          .search-bar button {
              padding: 8px;
              border: none;
@@ -98,21 +99,22 @@
              font-size: 0.9em;
              transition: background-color 0.3s ease;
          }
- 
+
          .search-bar button:hover {
              background-color: #0056b3;
          }
- 
+
          .hero {
-             background: url('https://wallpapercave.com/wp/wp8000721.jpg') center/cover no-repeat;
-             background-attachment: fixed;
+             background: url('https://img.freepik.com/premium-photo/white-electric-car-is-charging-charging-station-blue-pink-studio_36682-216466.jpg?w=900')  center/cover no-repeat;
+             /* background: url('https://wallpapercave.com/wp /wp8000721.jpg') center/cover no-repeat; */
+             background-attachment:fixed;
              padding: 100px 20px;
              color: #fff;
              text-align: center;
              position: relative;
              z-index: 1;
          }
- 
+
          .hero::after {
              content: "";
              position: absolute;
@@ -123,9 +125,9 @@
              background: rgba(0, 0, 0, 0.5);
              z-index: -1;
          }
- 
+
          .btn-primary {
-             background-color: #007bff;
+             background-color: #0056b3;
              color: #fff;
              border: none;
              padding: 10px 20px;
@@ -136,11 +138,11 @@
              display: inline-block;
              transition: background-color 0.3s ease;
          }
- 
+
          .btn-primary:hover {
              background-color: #0056b3;
          }
- 
+
          .btn-outline-primary {
              background-color: transparent;
              color: #007bff;
@@ -153,12 +155,12 @@
              display: inline-block;
              transition: background-color 0.3s ease, color 0.3s ease;
          }
- 
+
          .btn-outline-primary:hover {
              background-color: #007bff;
              color: #fff;
          }
- 
+
          .container {
              max-width: 1200px;
              margin: 0 auto;
@@ -167,21 +169,20 @@
              border-radius: 10px;
              backdrop-filter: blur(15px);
              box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-             color: black;
-         }
- 
+            color: #1C1C1E ;         }
+
          h1 {
              font-size: 2.5em;
              margin-bottom: 20px;
              text-align: center;
          }
- 
+
          .ev-cards {
              display: flex;
              justify-content: space-between;
              flex-wrap: wrap;
          }
- 
+
          .ev-card {
              flex: 1 1 calc(30% - 20px);
              margin: 10px;
@@ -197,7 +198,7 @@
              align-items: center;
              text-align: center;
          }
- 
+
          .ev-card img {
              width: 100%;
              height: 200px;
@@ -205,22 +206,22 @@
              border-radius: 10px;
              margin-bottom: 15px;
          }
- 
+
          .ev-card h3 {
              font-size: 1.6em;
              margin-bottom: 10px;
          }
- 
+
          .ev-card p {
              font-size: 1.1em;
              color: #666;
              margin-bottom: 15px;
          }
- 
+
          .ev-card:hover {
              transform: scale(1.05);
          }
- 
+
          .cta {
              padding: 50px 20px;
              background: rgba(0, 0, 0, 0.7);
@@ -228,21 +229,21 @@
              text-align: center;
              margin-top: 20px;
          }
- 
+
          .cta h2 {
              font-size: 2.5em;
              margin-bottom: 30px;
          }
- 
+
          .cta p {
              font-size: 1.2em;
              margin-bottom: 30px;
              max-width: 800px;
              margin: 0 auto;
          }
- 
+
          footer {
-             background-color: #102C57;
+             background-color:  #102C57;
              color: #fff;
              text-align: center;
              padding: 20px;
@@ -251,36 +252,36 @@
              bottom: 0;
              left: 0;
          }
- 
+
          footer .footer-content {
              max-width: 1200px;
              margin: 0 auto;
          }
- 
+
          footer .social-media {
              display: flex;
              justify-content: center;
              gap: 10px;
              margin-top: 20px;
          }
- 
+
          footer .social-media a {
-             color: black;
+             color: grey;
              font-size: 1.5em;
              text-decoration: none;
              transition: color 0.3s ease;
          }
- 
+
          footer .social-media a:hover {
              color: #00C2A2;
          }
- 
+
          @media (max-width: 768px) {
              .ev-cards {
                  flex-direction: column;
                  align-items: center;
              }
- 
+
              .ev-card {
                  flex: 1 1 100%;
                  max-width: 90%;
@@ -288,12 +289,12 @@
          }
      </style>
  </head>
- 
+
  <body>
      <header>
          <div class="navbar">
-             
-                 
+
+
               <h1><b>GlobalTradeApp</b></h1>
 
               <form action="{% url 'car_search' %}" method="get" class="search-bar">
@@ -303,16 +304,16 @@
              <nav class="navbar-nav">
                 <h4> <a href="brand">Browse</a></h4>
                  <h4><a href="about">About Us</a></h4>
-                
+
                  <h4><a href="#">Charging Stations</a><h4>
                  <h4><a href="">Contact</a><h4>
              </nav>
- 
-             
-             
+
+
+
          </div>
      </header>
- 
+
      <main>
          <section class="hero">
              <div class="container">
@@ -320,13 +321,13 @@
                  <p>Explore the world of electric vehicles and embrace innovation and sustainability. Whether you're looking for a compact car or a spacious vehicle, we have the perfect electric car for you.Electric cars are vehicles powered by electric motors using energy stored in batteries, as opposed to traditional gasoline-powered vehicles. They are known for being environmentally friendly, producing zero tailpipe emissions, and often have lower operating costs due to less maintenance and cheaper 'fuel' costs.
 
                     Some key aspects of electric cars include advancements in battery technology, increasing range capabilities, the growing availability of charging infrastructure, and appeals for sustainability as the automotive industry shifts towards greener alternatives.
-                    
+
                     Remember to double-check specific details or recent developments regarding electric vehicles as the technology evolves rapidly.</p>
-                 <a href="#" class="btn btn-primary">Get Started</a>
+                 <a href="wallet" class="btn btn-primary">Go to wallet</a>
                  <a href="#" class="btn btn-outline-primary">Learn More</a>
              </div>
          </section>
- 
+
          <div class="container">
              <h1>Featured Electric Cars</h1>
              <div class="ev-cards">
@@ -347,7 +348,7 @@
                  </div>
              </div>
          </div>
- 
+
          <section class="cta">
              <div class="container">
                  <h2>Join the Electric Revolution</h2>
@@ -355,7 +356,7 @@
                  <a href="#" class="btn btn-primary">Learn More</a>
              </div>
          </section>
- 
+
          <!-- Google Ads Section -->
          <section class="google-ads">
              <div class="container">
@@ -373,7 +374,7 @@
              </div>
          </section>
      </main>
- 
+
      <footer>
          <div class="footer-content">
              <p>&copy; 2024 Electric Vehicles by AHLBYTE FINTECH Pvt Ltd. All rights reserved.</p>
@@ -383,13 +384,13 @@
                  <a href="https://www.instagram.com/aiupdations_official" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
                  <a href="https://www.linkedin.com/company/aiupdations" aria-label="Linkedin"><i class="fab fa-linkedin"></i></a>
              </div>
-             
+
          </div>
      </footer>
- 
+
      <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
      <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/js/all.min.js"></script>
  </body>
- 
+
  </html>
- 
+
